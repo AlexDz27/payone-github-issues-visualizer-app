@@ -1,0 +1,5 @@
+# Every day at 07:00
+* * * * * node /app/commands/commands/update.js
+
+# Every Monday at 07:00
+* * * * * node /app/commands/commands/notify.js

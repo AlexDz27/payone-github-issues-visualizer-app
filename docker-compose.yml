@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  visualizer-app:
+    image: node:12-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: sh _docker/start-app.sh
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.visualizer-app.entrypoints=websecure"
+      - "traefik.http.routers.visualizer-app.rule=Host(`visualizer.patsy.dev`)"
+      - "traefik.http.routers.visualizer-app.tls=true"
+      - "traefik.http.routers.visualizer-app.tls.certresolver=le"
+      - "traefik.http.routers.visualizer-app.tls.options=default"
+      - "traefik.http.services.visualizer-app.loadbalancer.server.port=3000"
+      - "traefik.http.routers.visualizer-app.middlewares=teamauth@file, gzip@file, secHeaders@file"
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external:
+      name: traefik

@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  visualizer-app:
+    image: node:12-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: sh _docker/start-app.sh
+    ports:
+      - 3011:3000
